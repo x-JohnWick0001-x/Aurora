@@ -81,6 +81,12 @@ class VLC(commands.Cog):
 
         await ctx.message.edit(content=content)
 
+    @commands.command()
+    async def grades(self, ctx):
+        grades = self.perform_request("courses?include[]=total_scores")
+
+        await ctx.message.edit(content="")
+
 
 def setup(client):
     client.add_cog(VLC(client))
