@@ -2,12 +2,57 @@ import discord
 import requests
 from discord.ext import commands
 from datetime import datetime
-
+import random  # Add this import
+import tracery
 
 class Utility(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if isinstance(message.channel, discord.DMChannel) and message.author.name + '#' + message.author.discriminator == "Beckyy#4370" and message.author != self.client.user:
+            rules = {
+                "subject": [
+                    "I", "You", "Bob", "Sue", "We", "They", "Aliens", "Giraffes", "Unicorns", "Robots", "Ghosts",
+                    "Pirates", "Ninjas", "Astronauts", "Wizards", "Elves", "Zombies", "Mermaids", "Vikings", "Dragons",
+                    "Detectives", "Samurais", "Cats", "Dogs", "Mice", "Bats", "Lions", "Frogs", "Spiders", "Squirrels",
+                    "Sharks", "Ladybugs", "Camels", "Snakes", "Dolphins", "Gorillas", "Penguins", "Seagulls", "Elephants",
+                    "Hedgehogs", "Beavers", "Monkeys", "Owls", "Rats", "Raccoons", "Turtles", "Bees", "Butterflies"
+                ],
+                "verb": [
+                    "love", "hate", "like", "dislike", "prefer", "admire", "despise", "enjoy", "appreciate", "fear",
+                    "adore", "cherish", "dread", "savor", "relish", "avoid", "embrace", "envy", "fantasize about",
+                    "laugh at", "crave", "detest", "loathe", "anticipate", "distrust", "believe in", "dance with",
+                    "sing to", "argue with", "whisper to", "celebrate", "mock", "swoon over", "welcome", "disregard",
+                    "forgive", "blame", "kiss", "hug", "fight", "remember", "acknowledge", "trust", "ignore", "defend"
+                ],
+                "object": [
+                    "apples", "bananas", "cherries", "dogs", "cats", "pineapples", "elephants", "unicorns", "spaceships",
+                    "mountains", "rainbows", "lasers", "pumpkins", "lollipops", "robots", "vampires", "pirates", "ninjas",
+                    "zombies", "wizards", "computers", "pizzas", "hamburgers", "tacos", "donuts", "ice cream", "potatoes",
+                    "sunsets", "fireworks", "guitars", "dinosaurs", "jellyfish", "octopuses", "dragons", "ghosts", "aliens",
+                    "roller coasters", "beaches", "volcanoes", "forests", "deserts", "skyscrapers", "castles", "moon",
+                    "stars", "statues", "paintings", "monsters", "witches", "time machines", "frozen yoghurt", "bagels"
+                ],
+                "time": [
+                    "in the morning", "before lunch", "at night", "during a thunderstorm", "after a nap", "at midnight",
+                    "under the rain", "on a full moon", "on a sunny day", "while snowing", "on a foggy night", "in a dream",
+                    "in a parallel universe", "in the future", "in the past", "on vacation", "during a hurricane",
+                    "in a desert", "on a cruise", "at a party", "on a train", "in a spacecraft", "in the clouds",
+                    "in the middle of the ocean", "on an ice rink", "on a tightrope", "during a tornado", "on the moon",
+                    "in a cave", "on top of a mountain", "at a concert", "at the circus", "on a roller coaster",
+                    "in a haunted house", "on a deserted island", "in a library", "in a maze", "on a stage", "in a jungle"
+                ],
+                "origin": [
+                    "#subject# #verb# #object# #time#."
+                ]
+            }
+            
+            grammar = tracery.Grammar(rules)
+            response = grammar.flatten("#origin#")
+            await message.channel.send(response)
+    
     @commands.command(brief="Deletes a specific amount of messages in the current channel, or upto the message that you reply til")
     async def purge(self, ctx, amount=None):
         if amount is None:
